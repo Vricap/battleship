@@ -36,9 +36,8 @@ ships = {
 }
 
 # make a grid with 10x10 square 
-player1Grid = []
-player2Grid = []
-def makeGrid(grid):
+def makeGrid():
+    grid = []
     c = 1
     while c <= 10:
         c2 = 1
@@ -48,22 +47,17 @@ def makeGrid(grid):
             c2 += 1
         grid.append(iG)
         c += 1
-makeGrid(player1Grid)
-makeGrid(player2Grid)
-# print(grid)
+    return grid
 
-# dr
-# aw / place ship on grid randomly
-def drawShip(grid, size, icon):
-    cpG = list(grid)
+# draw / place ship on grid randomly
+def drawShip(makeGrid, size, icon):
     t = True
     while t:
-        # p = random.randint(0, 1) # 0 for horizontal; 1 for vertical
+        grid = makeGrid()
+        p = random.randint(0, 1) # 0 for horizontal; 1 for vertical
         r = random.randint(0, 9) # row start position
         c = random.randint(0, 9) # coloumn start position
-
-        p = 0
-        # FIXME: there's some overlapping?? or out of place of the symbol placing
+        
         if(p == 0):
             # TODO: REFACTOR: this code from here is similiar
             if(size + r >= 10 or size + c >= 10):
@@ -71,14 +65,10 @@ def drawShip(grid, size, icon):
             c1 = c - 1
             for _ in range(size):
                 c1 += 1
-                if(cpG[r][c1] != "-"):
-                    print(cpG, "\n")
-                    cpG = list(grid)
-                    print(cpG, "\n")
-                    drawShip(cpG, size, icon)
-                cpG[r][c1] = icon
-            grid = list(cpG)
-            return
+                if(grid[r][c1] != "-"):
+                    drawShip(makeGrid, size, icon)
+                grid[r][c1] = icon
+            return grid
 
         elif(p == 1):
             if(size + r > 9 or size + c > 9):
@@ -86,33 +76,27 @@ def drawShip(grid, size, icon):
             r1 = r - 1
             for _ in range(size):
                 r1 += 1
-                if(cpG[r1][c] != "-"):
-                    cpG = list(grid)
-                    drawShip(cpG, size, icon)
-                cpG[r1][c] = icon
-            grid = list(cpG)
-            return 
+                if(grid[r1][c] != "-"):
+                    drawShip(makeGrid, size, icon)
+                grid[r1][c] = icon
+            return grid
         
-def drawPlayerGrid(grid):
-    cpG = list(grid)
+def drawPlayerGrid():
+    grid = []
     for ship in ships:
-        drawShip(cpG, ships[ship]["size"], ships[ship]["icon"])
+        grid.append(drawShip(makeGrid, ships[ship]["size"], ships[ship]["icon"]))
     
     # TODO: stupid temporary little fix. not good!
     counter = 0
-    for i in cpG:
+    for i in grid:
         counter += i.count("-")
     while True:
         if(counter < 83):
-            cpG = list(grid)
-            drawShip(cpG, ships[ship]["size"], ships[ship]["icon"])
+            drawPlayerGrid()
         else:
-            print(counter)
-            grid = list(cpG)
-            return
+            return grid
 
-drawPlayerGrid(player1Grid)
-# drawPlayerGrid(player2Grid)
+player1Grid = drawPlayerGrid()
 
 # print grid nicely
 def prGr(grid):
