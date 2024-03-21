@@ -5,7 +5,10 @@ import random
 def generatePos(ship):
     hori = 0
     vert = 1
-    posArr = []
+    arr  = {
+        "coor": [],
+        "pos": ""
+    }
     while True:
         pos = random.randint(0, 1)
         x = 0
@@ -16,12 +19,14 @@ def generatePos(ship):
             j = 1
             while j <= ship: 
                 if(pos == vert):
-                    posArr.append(x + j)
+                    arr["coor"].append(x + j)
+                    arr["pos"] = "v"
                 elif(pos == hori):
-                    posArr.append(x)
+                    arr["coor"].append(x)
+                    arr["pos"] = "h"
                 j += 1
             break
-        return posArr
+        return arr
 
 # create the ships
 # ships spec:
@@ -47,21 +52,44 @@ location = {
     "patrol boat": generatePos(2)
 }
 
-print(location)
+# print(location)
 
-# make an 10x10 square
-outerArr = []
+# make a grid with 10x10 square 
+grid = []
 c = 1
 while c <= 10:
     c2 = 1
-    innerArr = []
+    iG = []
     while c2 <= 10:
-        innerArr.append("#")
+        iG.append("#")
         c2 += 1
-    outerArr.append(innerArr)
+    grid.append(iG)
     c += 1
+# print(grid)
 
+# place ships position in grid
+def plcSh(grid, ship):
+    gC = gC
+    if(ship["pos"] == "h"):
+        while True:
+            n = random.randint(0, 9)
+            for i in range(len(gC[n])):
+                if(gC[n][i] == "*"):
+                    gC = grid
+                    break
+                for j in ship["coor"]:
+                    if(i == j):
+                        gC[n][j] = "*"
+            break
+        grid = gC
+            
+plcSh(grid, {"coor": [2,3,4,5], "pos": "h"})
+plcSh(grid, {"coor": [4,5,6], "pos": "h"})
 
+def prGr(grid):
+    for i in grid:
+        print(i, "\n")
+prGr(grid)
 # # define background color
 # background_color = (0,0,255)
 
