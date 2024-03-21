@@ -1,33 +1,6 @@
 import pygame
 import random
 
-# function to generate ship location 
-def generatePos(ship):
-    hori = 0
-    vert = 1
-    arr  = {
-        "coor": [],
-        "pos": ""
-    }
-    while True:
-        pos = random.randint(0, 1)
-        x = 0
-        while x <= 9 and x >= 0:
-            x = random.randint(0, 9)
-            if(x + ship > 9):
-                continue
-            j = 1
-            while j <= ship: 
-                if(pos == vert):
-                    arr["coor"].append(x + j)
-                    arr["pos"] = "v"
-                elif(pos == hori):
-                    arr["coor"].append(x)
-                    arr["pos"] = "h"
-                j += 1
-            break
-        return arr
-
 # create the ships
 # ships spec:
     # carrier: 5
@@ -36,23 +9,27 @@ def generatePos(ship):
     # submarine: 3
     # patrol boat: 2
 ships = {
-    "carrier": 5,
-    "battleships": 4,
-    "destroyer": 3,
-    "submarine": 3,
-    "patrol boat": 2
+    "carrier": {
+        "size": 5,
+        "icon": "@"
+    },
+    "battleship": {
+        "size": 4,
+        "icon": "$"
+    },
+    "destroyer": {
+        "size": 3,
+        "icon": "^"
+    },
+    "submarine": {
+        "size": 3,
+        "icon": "&"
+    },
+    "patrol boat": {
+        "size": 2,
+        "icon": "%"
+    }
 }
-
-# generate ships location
-location = {
-    "carrier": generatePos(5),
-    "battleships":generatePos(4),
-    "destroyer": generatePos(3),
-    "submarine": generatePos(3),
-    "patrol boat": generatePos(2)
-}
-
-# print(location)
 
 # make a grid with 10x10 square 
 grid = []
@@ -67,49 +44,46 @@ while c <= 10:
     c += 1
 # print(grid)
 
-# place ships position in grid
-def plcSh(grid, ship):
-    gC = gC
-    if(ship["pos"] == "h"):
-        while True:
-            n = random.randint(0, 9)
-            for i in range(len(gC[n])):
-                if(gC[n][i] == "*"):
-                    gC = grid
-                    break
-                for j in ship["coor"]:
-                    if(i == j):
-                        gC[n][j] = "*"
-            break
-        grid = gC
-            
-plcSh(grid, {"coor": [2,3,4,5], "pos": "h"})
-plcSh(grid, {"coor": [4,5,6], "pos": "h"})
+# draw / place ship on grid randomly
+def drSh(grid, ship, icon):
+    cpG = grid
+    t = True
+    while t:
+        p = random.randint(0, 1) # 0 for horizontal; 1 for vertical
+        r = random.randint(0, 9) # row start position
+        c = random.randint(0, 9) # coloumn start position
+        if(p == 0):
+            # TODO:
+            if(ship + r > 9 or ship + c > 9):
+                continue
+            for _ in range(ship):
+                c += 1
+                if(cpG[r][c] != "#"):
+                    cpG = grid
+                    return drSh(grid, ship, icon)
+                cpG[r][c] = icon
+            return
 
+        elif(p == 1):
+            # TODO:
+            if(ship + r > 9 or ship + c > 9):
+                continue
+            for _ in range(ship):
+                r += 1
+                if(cpG[r][c] != "#"):
+                    cpG = grid
+                    return drSh(grid, ship, icon)
+                cpG[r][c] = icon
+            return
+        
+drSh(grid, ships["carrier"]["size"], ships["carrier"]["icon"])
+drSh(grid, ships["battleship"]["size"], ships["battleship"]["icon"])
+drSh(grid, ships["submarine"]["size"], ships["submarine"]["icon"])
+drSh(grid, ships["destroyer"]["size"], ships["destroyer"]["icon"])
+drSh(grid, ships["patrol boat"]["size"], ships["patrol boat"]["icon"])
+
+# print grid nicely
 def prGr(grid):
     for i in grid:
         print(i, "\n")
 prGr(grid)
-# # define background color
-# background_color = (0,0,255)
-
-# # define screen size
-# screen = pygame.display.set_mode((1280, 700))
-
-# # set the caption / title
-# pygame.display.set_caption("Battleship AI")
-
-# # fill the screen with bgc
-# screen.fill(background_color)
-
-# # update display using flip
-# pygame.display.flip()
-
-# # variable to keep game / window open / running
-# running = True
-
-# # loop game
-# while running:
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             running = False
