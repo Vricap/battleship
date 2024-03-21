@@ -36,10 +36,9 @@ def d(grid, ship):
     cpG = grid
     t = True
     while t:
-        # p = random.randint(0, 1)
-        r = random.randint(0, 8)
-        c = random.randint(0, 9)
-        p = 1
+        p = random.randint(0, 1) # 0 for horizontal; 1 for vertical
+        r = random.randint(0, 8) # row start position
+        c = random.randint(0, 9) # coloumn start position
         if(p == 0):
             # TODO:
             if(ship + r > 9 or ship + c > 9):
@@ -56,7 +55,13 @@ def d(grid, ship):
             # TODO:
             if(ship + r > 9 or ship + c > 9):
                 continue
-            
+            for _ in range(ship):
+                r += 1
+                if(cpG[r][c] == "O"):
+                    cpG = grid
+                    return d(grid, ship)
+                cpG[r][c] = "O"
+            return
 
 d(grid, 4)
 d(grid, 3)
