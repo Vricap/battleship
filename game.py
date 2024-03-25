@@ -3,8 +3,6 @@ import random
 import sys
 import asyncio
 
-sys.setrecursionlimit(100000) # increase the limit recursion depth because i'm a terrible progammer
-
 # create the ships
 # ships spec:
     # carrier: 5
@@ -38,7 +36,8 @@ ships = {
 # make a grid with 10x10 square 
 player1Grid = []
 player2Grid = []
-def makeGrid(grid):
+def makeGrid():
+    grid = []
     c = 1
     while c <= 10:
         c2 = 1
@@ -48,71 +47,70 @@ def makeGrid(grid):
             c2 += 1
         grid.append(iG)
         c += 1
-makeGrid(player1Grid)
-makeGrid(player2Grid)
-# print(grid)
+    return grid
 
-# dr
-# aw / place ship on grid randomly
-def drawShip(grid, size, icon):
+# draw / place ship on grid randomly
+def drawShip(grid, size, icon, p):
     cpG = list(grid)
-    t = True
-    while t:
-        # p = random.randint(0, 1) # 0 for horizontal; 1 for vertical
+    while True:        
         r = random.randint(0, 9) # row start position
         c = random.randint(0, 9) # coloumn start position
 
-        p = 0
-        # FIXME: there's some overlapping?? or out of place of the symbol placing
+        # FIXME: there's some overlapping??
         if(p == 0):
-            # TODO: REFACTOR: this code from here is similiar
-            if(size + r >= 10 or size + c >= 10):
+            # TODO: REFACTOR: This is UGLY and STUPID
+            if(size + r > 9 or size + c > 9):
                 continue
-            c1 = c - 1
+            c1 = c 
+            t = []
             for _ in range(size):
+                t = cpG[r][c1]
                 c1 += 1
-                if(cpG[r][c1] != "-"):
-                    print(cpG, "\n")
-                    cpG = list(grid)
-                    print(cpG, "\n")
-                    drawShip(cpG, size, icon)
-                cpG[r][c1] = icon
-            grid = list(cpG)
-            return
+
+            # GOD.....
+            if("S" in t or "P" in t or "B" in t or "D" in t or "C" in t):
+                continue
+            else:
+                for _ in range(size):
+                    cpG[r][c] = icon
+                    c += 1
+                grid = list(cpG)
+                return
 
         elif(p == 1):
             if(size + r > 9 or size + c > 9):
                 continue
-            r1 = r - 1
+            r1 = r 
+            t = []
             for _ in range(size):
+                t = cpG[r1][c]
                 r1 += 1
-                if(cpG[r1][c] != "-"):
-                    cpG = list(grid)
-                    drawShip(cpG, size, icon)
-                cpG[r1][c] = icon
-            grid = list(cpG)
-            return 
+            if("S" in t or "P" in t or "B" in t or "D" in t or "C" in t):
+                continue
+            else:
+                for _ in range(size):
+                    cpG[r][c] = icon
+                    r += 1
+                grid = list(cpG)
+                return 
         
-def drawPlayerGrid(grid):
-    cpG = list(grid)
-    for ship in ships:
-        drawShip(cpG, ships[ship]["size"], ships[ship]["icon"])
-    
-    # TODO: stupid temporary little fix. not good!
-    counter = 0
-    for i in cpG:
-        counter += i.count("-")
+def drawPlayerGrid():
     while True:
-        if(counter < 83):
-            cpG = list(grid)
-            drawShip(cpG, ships[ship]["size"], ships[ship]["icon"])
-        else:
-            print(counter)
-            grid = list(cpG)
-            return
+        grid = makeGrid()
+        for ship in ships:
+            p = random.randint(0, 1) # 0 for horizontal; 1 for vertical
+            drawShip(grid, ships[ship]["size"], ships[ship]["icon"], p)
+        
+        # TODO: stupid temporary little fix of the bug above.... fix the upstream bug!
+        counter = 0
+        for i in grid:
+            counter += i.count("-")
+        if(counter != 83):
+            continue
+        return grid
 
-drawPlayerGrid(player1Grid)
-# drawPlayerGrid(player2Grid)
+player1Grid = drawPlayerGrid()
+player2Grid = drawPlayerGrid()
 
 # print grid nicely
 def prGr(grid):
@@ -120,8 +118,8 @@ def prGr(grid):
         print(i, "\n")
     
 prGr(player1Grid)
-# print("==================================================\n")
-# prGr(player2Grid)
+print("==================================================\n")
+prGr(player2Grid)
 
 player1Shots = 20
 player2Shots = 20
