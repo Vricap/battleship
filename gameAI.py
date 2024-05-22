@@ -11,7 +11,7 @@ from game import isHit
 shotCor = []
 lastHit = ""
 searchMode = True
-targerMode = False
+targetMode = False
 
 def playAI(grid):
     if(searchMode):
@@ -23,16 +23,16 @@ def playAI(grid):
             if c in shotCor:
                 continue
             
-            shotCor.append(c)
-            grid[x][y] = "+"
-            s = isHit(grid, x, y)
+            shotCor.append(c) # record the coordinate
+            s = isHit(grid, x, y) # check if hit
+            grid[x][y] = "+" # paint the grid
             
             if(s == 1):
                 lastHit = shotCor[-1]
                 # searchMode = False
-                # targerMode = True
+                # targetMode = True
                 # return
-            return grid
+            return s
 
-    # elif(targerMode):
+    # elif(targetMode):
         

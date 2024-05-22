@@ -77,9 +77,8 @@ if __name__ == "__main__":
             player1Shot -= 1
 
         elif(player2):
-            # s = isHit(row, coloumn, 1)
-            # player2Score += s
-            player1Grid = playAI(player1Grid)
+            s = playAI(player1Grid)
+            player2Score += s
             player1 = True
             player2 = False
             player2Shot -= 1
