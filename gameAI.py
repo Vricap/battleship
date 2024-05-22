@@ -6,11 +6,33 @@
 # if the shot is hit, that will be the current last hit coordinate. Thus, iterate the process again.
 
 import random
+from game import isHit
 
 shotCor = []
+lastHit = ""
+searchMode = True
+targerMode = False
 
-def gameAI(grid):
-    x = random.randint(0, 9) # row 
-    y = random.randint(0, 9) # coloumn 
-    
-    return
+def playAI(grid):
+    if(searchMode):
+        while True:
+            x = random.randint(0, 9) # row 
+            y = random.randint(0, 9) # coloumn 
+
+            c = f"{x} {y}"
+            if c in shotCor:
+                continue
+            
+            shotCor.append(c)
+            grid[x][y] = "+"
+            s = isHit(grid, x, y)
+            
+            if(s == 1):
+                lastHit = shotCor[-1]
+                # searchMode = False
+                # targerMode = True
+                # return
+            return grid
+
+    # elif(targerMode):
+        
