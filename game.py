@@ -67,8 +67,10 @@ if __name__ == "__main__":
 
 
         if(player1):
-            row = input("Masukan row: ")
-            coloumn = input("Masukan coloumn: ")
+            # row = input("Masukan row: ")
+            # coloumn = input("Masukan coloumn: ")
+            row = 0
+            coloumn = 0
             s = isHit(player2Grid, row, coloumn)
             player1Score += s
             player2Grid[int(row)][int(coloumn)] = "+"
@@ -83,10 +85,13 @@ if __name__ == "__main__":
             player2 = False
             player2Shot -= 1
 
-
         prGr(player1Grid)
         print("==================================================\n")
         prGr(player2Grid)
         t -= 1
-        if(t == 0):
+        if(t == 0 and player1Score == player2Score):
             print("DRAW!")
+        elif(t == 0 and player1Score > player2Score):
+            print("PLAYER 1 WIN!")
+        elif(t == 0 and player1Score < player2Score):
+            print("PLAYER 2 WIN!")
