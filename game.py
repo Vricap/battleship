@@ -7,8 +7,10 @@ def isHit(grid, row, coloumn):
 if __name__ == "__main__":
     from drawGrid import drawPlayerGrid
     from gameAI import playAI
+    from drawGrid import makeGrid
 
     player1Grid = drawPlayerGrid()
+    player1TargetGrid = makeGrid()
     player2Grid = drawPlayerGrid()
         
     # rowsCoordinate = {
@@ -30,9 +32,13 @@ if __name__ == "__main__":
             print(i, "\n")
             x += 1
 
+    print('\n')
+    print("YOUR SHIP GRID!")
     prGr(player1Grid)
     print("==================================================\n")
-    prGr(player2Grid)
+    print("YOUR TARGET MARK GRID!")
+    prGr(player1TargetGrid)
+    # prGr(player2Grid)
 
     player1Shot = 20
     player2Shot = 20
@@ -58,7 +64,7 @@ if __name__ == "__main__":
         print("Shot player 1 left: ", player1Shot)
         print("Shot player 2 left: ", player2Shot)
         print("Player 1 score: ", player1Score)
-        print("Player 2 score: ", player2Score)
+        print("Player 2 score: ", player2Score, '\n')
 
         if(player1):
             print("Player 1 turn.")
@@ -67,13 +73,12 @@ if __name__ == "__main__":
 
 
         if(player1):
-            # row = input("Masukan row: ")
-            # coloumn = input("Masukan coloumn: ")
-            row = 0
-            coloumn = 0
+            row = input("Masukan row: ")
+            coloumn = input("Masukan coloumn: ")
             s = isHit(player2Grid, row, coloumn)
             player1Score += s
             player2Grid[int(row)][int(coloumn)] = "+"
+            player1TargetGrid[int(row)][int(coloumn)] = "+"
             player1 = False
             player2 = True
             player1Shot -= 1
@@ -85,9 +90,13 @@ if __name__ == "__main__":
             player2 = False
             player2Shot -= 1
 
+        print('\n')
+        print("YOUR SHIP GRID!")
         prGr(player1Grid)
         print("==================================================\n")
-        prGr(player2Grid)
+        print("YOUR TARGET MARK GRID!")
+        prGr(player1TargetGrid)
+        # prGr(player2Grid)
         t -= 1
         if(t == 0 and player1Score == player2Score):
             print("DRAW!")
