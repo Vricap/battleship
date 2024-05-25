@@ -1,7 +1,4 @@
-import pygame
 import random
-import sys
-import asyncio
 
 # create the ships
 # ships spec:

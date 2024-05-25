@@ -1,7 +1,9 @@
 def isHit(grid, row, coloumn):
         if(grid[int(row)][int(coloumn)] != "-" and grid[int(row)][int(coloumn)] != "+"):
+            print("HIT!")
             return 1
         else:
+            print("MISS!")
             return 0
         
 if __name__ == "__main__":
