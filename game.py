@@ -42,8 +42,8 @@ if __name__ == "__main__":
     prGr(player1TargetGrid)
     # prGr(player2Grid)
 
-    player1Shot = 20
-    player2Shot = 20
+    player1Shot = 30
+    player2Shot = 30
 
     winScore = 17
 
@@ -53,7 +53,10 @@ if __name__ == "__main__":
     player1Score = 0
     player2Score = 0
 
-    t = 40
+    t = 60
+
+    row = None
+    coloumn = None
 
     while t > 0:
         if(player1Score == 17):
@@ -75,6 +78,7 @@ if __name__ == "__main__":
 
 
         if(player1):
+            print('Your last coordinate was: [', row, coloumn, ']\n')
             row = input("Masukan row: ")
             coloumn = input("Masukan coloumn: ")
             s = isHit(player2Grid, row, coloumn)
