@@ -79,7 +79,9 @@ if __name__ == "__main__":
 
         if(player1):
             print('Your last coordinate was: [', row, coloumn, ']\n')
+            print('Pick row from 0 to 9')
             row = input("Masukan row: ")
+            print('Pick coloumn from 0 to 9')
             coloumn = input("Masukan coloumn: ")
             s = isHit(player2Grid, row, coloumn)
             player1Score += s
