@@ -5,6 +5,26 @@ def isHit(grid, row, coloumn):
         else:
             print("MISS!")
             return 0
+
+def playerCoordinatePicking():
+    row = None
+    coloumn = None
+    t = True
+    while t:
+        # TODO: also check if input is a string
+        print('Pick row from 0 to 9')
+        row = int(input("Masukan row: "))
+        if(row < 0 or row > 9):
+            print('Your ROW is out of bound. Pick row from 0 to 9!')
+            continue
+        print('Pick coloumn from 0 to 9')
+        coloumn = int(input("Masukan coloumn: "))
+        if(coloumn < 0 or coloumn > 9):
+            print('Your COLOUMN is out of bound. Pick coloumn from 0 to 9!')
+            continue
+                
+        t = False
+    return [row, coloumn]
         
 if __name__ == "__main__":
     from drawGrid import drawPlayerGrid
@@ -79,10 +99,9 @@ if __name__ == "__main__":
 
         if(player1):
             print('Your last coordinate was: [', row, coloumn, ']\n')
-            print('Pick row from 0 to 9')
-            row = input("Masukan row: ")
-            print('Pick coloumn from 0 to 9')
-            coloumn = input("Masukan coloumn: ")
+            coordinate = playerCoordinatePicking()
+            row = coordinate[0]
+            coloumn = coordinate[1]
             s = isHit(player2Grid, row, coloumn)
             player1Score += s
             player2Grid[int(row)][int(coloumn)] = "+"
