@@ -1,9 +1,9 @@
 def isHit(grid, row, coloumn):
         if(grid[int(row)][int(coloumn)] != "-" and grid[int(row)][int(coloumn)] != "+"):
-            print("HIT!")
+            # print("HIT!")
             return 1
         else:
-            print("MISS!")
+            # print("MISS!")
             return 0
 
 def playerCoordinatePicking():
@@ -91,13 +91,18 @@ if __name__ == "__main__":
         print("Player 1 score: ", player1Score)
         print("Player 2 score: ", player2Score, '\n')
 
+        # if(player1):
+        #     print("Player 1 turn.")
+        # else:
+        #     print("Player 2 turn.")
+
+
         if(player1):
             print("Player 1 turn.")
-        else:
-            print("Player 2 turn.")
-
-
-        if(player1):
+            if(t != 60 and s):
+                print("Your last shot is HIT!")
+            else:
+                print("Your last shot is MISS!")
             print('Your last coordinate was: [', row, coloumn, ']\n')
             coordinate = playerCoordinatePicking()
             row = coordinate[0]
@@ -111,8 +116,8 @@ if __name__ == "__main__":
             player1Shot -= 1
 
         elif(player2):
-            s = playAI(player1Grid)
-            player2Score += s
+            s2 = playAI(player1Grid)
+            player2Score += s2
             player1 = True
             player2 = False
             player2Shot -= 1
